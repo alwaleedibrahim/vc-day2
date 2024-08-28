@@ -27,7 +27,7 @@ export const login = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const {password } = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = await users.create({ ...req.body, password: hashedPassword });
