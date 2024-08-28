@@ -1,15 +1,15 @@
 import messageModel from '../models/messages.js';
 
 
-export const createMessage= async (req, res) => {
+export const createMessage = async (req, res) => {
     try {
       let newMessage = req.body;
       let message = await messageModel.create(newMessage);
 
-      res.status(201).json({ message: "success creating message", data: message });
+      res.status(201).json({ message: "message created successfully", data: message });
 
     } catch (err) {
-      res.status(400).json({ message: "failed to create message" });
+      res.status(400).json({ message: "message failed to send" });
     }};
 
 
