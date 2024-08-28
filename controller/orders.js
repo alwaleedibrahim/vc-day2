@@ -15,7 +15,8 @@ export const get = async (req, res) => {
 
 export const getِAll = async (req, res) => {
   try {
-    const result = await orders.find();
+    const userid = req.user.id
+    const result = await orders.find({user_id:userid});
     if (!result) {
       return res.status(404).send({ message: "No orders was found" });
     }
