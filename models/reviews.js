@@ -92,8 +92,6 @@ const updateServiceData = async (req, res, next) => {
 // save
 reviewSchema.pre('save', async function(next) {
     if (this.isNew || this.isModified('overallRating')) {
-        console.log("save"+this.serviceId);
-
         updateServiceData();
     } else {
         next(); 
@@ -140,7 +138,11 @@ reviewSchema.pre('findOneAndUpdate', async function (next) {
 
 // remove
 reviewSchema.pre('remove', async function (next) {
-    updateServiceData();
+    if (this.isModified('overallRating')) {
+        updateServiceData();
+    } else {
+        next(); 
+    }
 });
 
 const Review = mongoose.model('Review', reviewSchema);
