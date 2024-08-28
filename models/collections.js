@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// this function create a schema for collections 😂😂
 const collectionsSchema = new mongoose.Schema(
   {
     user_id: {
