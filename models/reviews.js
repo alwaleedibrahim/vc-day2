@@ -68,32 +68,33 @@ const reviewSchema = new mongoose.Schema({
 
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
+// update service data
+const updateServiceData = async (req, res, next) => {
+    try {
+        const service = await Service.findById(this.serviceId);
+        if (!service) {
+            return next(new Error('Service not found'));
+        }
+
+        const serviceReviews = await Review.find({ serviceId: this.serviceId });
+        
+        service.serviceCard.totalReviewers = serviceReviews.length;
+        service.serviceCard.totalRated = serviceReviews.length > 0
+            ? serviceReviews.reduce((acc, current) => acc + (current.overallRating || 0), 0) / serviceReviews.length
+            : 0; 
+
+        await service.save();            
+        next();
+    } catch (err) {
+        return next(err);
+    }
+}
 // save
 reviewSchema.pre('save', async function(next) {
     if (this.isNew || this.isModified('overallRating')) {
         console.log("save"+this.serviceId);
 
-        try {
-            const service = await Service.findById(this.serviceId);
-            if (!service) {
-                return next(new Error('Service not found'));
-            }
-
-            const serviceReviews = await Review.find({ serviceId: this.serviceId });
-            
-            service.serviceCard.totalReviewers = serviceReviews.length;
-            service.serviceCard.totalRated = serviceReviews.length > 0
-                ? serviceReviews.reduce((acc, current) => acc + (current.overallRating || 0), 0) / serviceReviews.length
-                : 0; 
-
-            await service.save();
-
-            console.log(serviceReviews.length);
-            
-            next();
-        } catch (err) {
-            return next(err);
-        }
+        updateServiceData();
     } else {
         next(); 
     }
@@ -139,24 +140,7 @@ reviewSchema.pre('findOneAndUpdate', async function (next) {
 
 // remove
 reviewSchema.pre('remove', async function (next) {
-    try {
-        const service = await Service.findById(this.serviceId);
-        if (!service) {
-            return next(new Error('Service not found'));
-        }
-
-        const serviceReviews = await Review.find({ serviceId: this.serviceId });
-
-        service.serviceCard.totalReviewers = serviceReviews.length;
-        service.serviceCard.totalRated = serviceReviews.length > 0
-            ? serviceReviews.reduce((acc, current) => acc + (current.overallRating || 0), 0) / serviceReviews.length
-            : 0;
-
-        await service.save();
-        next();
-    } catch (err) {
-        return next(err);
-    }
+    updateServiceData();
 });
 
 const Review = mongoose.model('Review', reviewSchema);
