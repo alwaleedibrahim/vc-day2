@@ -3,7 +3,7 @@ import Review from "../models/reviews.js";
 // //////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // Create Review
 export const createReview = async (req, res) => {
-    const { userId } = req.params;
+    const { userId } = req.user;
     let {
         qualityOfService,
         communication,
@@ -47,8 +47,8 @@ export const createReview = async (req, res) => {
 // //////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // Create Reply
 export const createReplies = async (req, res) => {
-    const { reviewId, userId } = req.params;
-    const { replyText } = req.body;
+    const { userId } = req.user;
+    const { reviewId, replyText } = req.body;
 
     try {
         const review = await Review.findById(reviewId);
@@ -79,8 +79,8 @@ export const createReplies = async (req, res) => {
 // //////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // Update Reply
 export const updateReplies = async (req, res) => {
-    const { reviewId, userId } = req.params;
-    const { replyId, replyText } = req.body;
+    const { userId } = req.user;
+    const { reviewId, replyId, replyText } = req.body;
 
     try {
         const review = await Review.findById(reviewId);
@@ -120,8 +120,9 @@ export const updateReplies = async (req, res) => {
 // //////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // Update Review
 export const updateReview = async (req, res) => {
-    const { userId, reviewId } = req.params;
+    const { userId } = req.user;
     const {
+        reviewId,
         qualityOfService,
         communication,
         deliveryPunctuality,
@@ -193,8 +194,8 @@ export const deleteReview = async (req, res) => {
 // Delete Reply
 
 export const deleteReply = async (req, res) => {
-    const { reviewId, userId } = req.params;
-    const { replyId } = req.body;
+    const { userId } = req.user;
+    const { reviewId, replyId } = req.body;
 
     try {
         const review = await Review.findById(reviewId);

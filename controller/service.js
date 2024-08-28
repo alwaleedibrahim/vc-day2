@@ -3,7 +3,7 @@ import UpgradeService from "../models/upgradeService.js";
 
 // create service
 export const createService = async (req, res) => {
-    const { userId } =  req.params;
+    const { userId } =  req.user;
     const {
         title,
         description,
