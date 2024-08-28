@@ -1,6 +1,6 @@
 import messageModel from '../models/messages.js';
 
-//=======================================  Creating New Message ==================================================//
+
 export const createMessage= async (req, res) => {
     try {
       let newMessage = req.body;
@@ -12,7 +12,7 @@ export const createMessage= async (req, res) => {
       res.status(400).json({ message: "failed to create message" });
     }};
 
-//============  Getting Messages : using skip = 0 & limit = 5 as default or from user query ======================//
+
 
 export const getMessage = async (req,res) => {
   const skip = parseInt(req.query.skip) || 0;
@@ -28,14 +28,12 @@ export const getMessage = async (req,res) => {
        res.status(500).json({message:"err cannot get messages",err});
   }};
 
-//=============================================== Get Message By Id ================================================//
-
 export const getMessageById = async (req,res) =>{
 const {id} = req.params
 try{
   const fetchedMessage = await messageModel.findById(id);
 
-  // in case the id is incorrect or doesnt exist at all
+
 if (!fetchedMessage) {
       return res.status(404).json({ message: "Message not found" });
     }
@@ -46,9 +44,6 @@ res.status(201).json({message:"fetched message successfully",data:fetchedMessage
   res.status(500).json({message:"cannot fetch message",err})
 }};
 
-//================================================= Edit Message By Id ===============================================//
-                      //handle when user updates based on NONEXISTENT id 
-                     // handle when user updates against validation standards based on schema 
 
 export const editMessageById = async(req,res) =>{
   const {id} = req.params;
@@ -70,8 +65,6 @@ if (!updatedMessage) {
     res.status(500).json({message:"cannot update message",err});
   }};
 
-
-  //================================================= Delete Message By Id ===============================================//
 export const deleteMessageById = async(req,res) =>{
   const {id} = req.params;
   
