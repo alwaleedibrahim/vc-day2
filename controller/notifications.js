@@ -64,7 +64,7 @@ export const editNotificationById = async(req,res) =>{
       res.status(201).json({message:"notification updated successfully",data:updatedNotification});
       
     } catch (err){
-      res.status(500).json({message:"cannot update notification"});
+      res.status(502).json({message:"cannot update notification"});
     }};
 
     
