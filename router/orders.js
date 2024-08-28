@@ -1,11 +1,11 @@
-import express from "express"
-import {getِAll, get, create, update, del} from "../controller/orders.js"
-const router = express.Router()
+import express from "express";
+import { getِAll, get, create, update, del } from "../controller/orders.js";
+const router = express.Router();
 
-router.get("/", getِAll)
-router.get("/:id", get)
-router.post("/", create)
-router.patch("/:id", update)
-router.delete("/:id",del)
+router.get("/", verfiyToken, getِAll);
+router.get("/:id", verfiyToken, get);
+router.post("/", verfiyToken, create);
+router.patch("/:id", verfiyToken, update);
+router.delete("/:id", verfiyToken, del);
 
-export default router
+export default router;
