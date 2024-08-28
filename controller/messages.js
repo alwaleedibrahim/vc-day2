@@ -15,8 +15,8 @@ export const createMessage = async (req, res) => {
 
 
 export const getMessage = async (req,res) => {
-  const skip = parseInt(req.query.skip) || 0;
-  const limit = parseInt(req.query.limit) || 5;
+  const skip = parseInt(req.query.skip) || 2;
+  const limit = parseInt(req.query.limit) || 3;
 
 
   try{
